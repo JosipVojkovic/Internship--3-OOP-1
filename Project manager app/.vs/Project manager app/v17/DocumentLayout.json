@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|c:\\users\\josip\\internship-3-oop-1\\project manager app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|c:\\users\\josip\\internship-3-oop-1\\project manager app\\enums\\projectstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|solutionrelative:enums\\projectstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|c:\\users\\josip\\internship-3-oop-1\\project manager app\\classes\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|solutionrelative:classes\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|c:\\users\\josip\\internship-3-oop-1\\project manager app\\classes\\assignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{980EF215-0DFE-4BF2-8B97-56CFDF794344}|Project manager app.csproj|solutionrelative:classes\\assignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAALgAAAAAAAAAAAAgwMYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:34:51.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Project.cs",
+              "DocumentMoniker": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Classes\\Project.cs",
+              "RelativeDocumentMoniker": "Classes\\Project.cs",
+              "ToolTip": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Classes\\Project.cs",
+              "RelativeToolTip": "Classes\\Project.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:37:18.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Assignment.cs",
+              "DocumentMoniker": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Classes\\Assignment.cs",
+              "RelativeDocumentMoniker": "Classes\\Assignment.cs",
+              "ToolTip": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Classes\\Assignment.cs",
+              "RelativeToolTip": "Classes\\Assignment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T18:01:44.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProjectStatusEnum.cs",
+              "DocumentMoniker": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Enums\\ProjectStatusEnum.cs",
+              "RelativeDocumentMoniker": "Enums\\ProjectStatusEnum.cs",
+              "ToolTip": "C:\\Users\\josip\\Internship-3-OOP-1\\Project manager app\\Enums\\ProjectStatusEnum.cs",
+              "RelativeToolTip": "Enums\\ProjectStatusEnum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:55:28.799Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

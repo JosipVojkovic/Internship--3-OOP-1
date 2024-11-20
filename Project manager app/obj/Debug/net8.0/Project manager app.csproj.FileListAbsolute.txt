@@ -1,0 +1,14 @@
+C:\Users\josip\Internship-3-OOP-1\Project manager app\bin\Debug\net8.0\Project manager app.exe
+C:\Users\josip\Internship-3-OOP-1\Project manager app\bin\Debug\net8.0\Project manager app.deps.json
+C:\Users\josip\Internship-3-OOP-1\Project manager app\bin\Debug\net8.0\Project manager app.runtimeconfig.json
+C:\Users\josip\Internship-3-OOP-1\Project manager app\bin\Debug\net8.0\Project manager app.dll
+C:\Users\josip\Internship-3-OOP-1\Project manager app\bin\Debug\net8.0\Project manager app.pdb
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.AssemblyInfoInputs.cache
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.AssemblyInfo.cs
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.csproj.CoreCompileInputs.cache
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.dll
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\refint\Project manager app.dll
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.pdb
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.genruntimeconfig.cache
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\ref\Project manager app.dll
