@@ -12,3 +12,4 @@ C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\refint\Pr
 C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.pdb
 C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.genruntimeconfig.cache
 C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\ref\Project manager app.dll
+C:\Users\josip\Internship-3-OOP-1\Project manager app\obj\Debug\net8.0\Project manager app.sourcelink.json

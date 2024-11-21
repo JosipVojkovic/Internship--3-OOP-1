@@ -1,12 +1,13 @@
 ﻿using Project_manager_app.Classes;
 using Project_manager_app.Enums;
 using System;
+using System.Data.Common;
 
 var projects = new Dictionary<Project, List<Assignment>>();
 
 var project1 = new Project
 {
-    Name = "Git projekt ",
+    Name = "Git projekt",
     Description = "Ovo je Git projekt sa DUMP internshipa.",
     StartDate = DateTime.Now.AddDays(-15),
     EndDate = DateTime.Now.AddDays(-5),
@@ -127,7 +128,6 @@ projects[project3] = new List<Assignment> { task7, task8, task9 };
 
 static void WrongEntry()
 {
-    Console.Clear();
     Console.WriteLine("Pogresan unos. Pokusaj ponovno.");
     Console.WriteLine();
 }
@@ -158,6 +158,7 @@ static string CheckStringInput(string text)
         value = Console.ReadLine();
 
         if (value == "")
+            Console.Clear();
             WrongEntry();
             
     }
@@ -176,25 +177,27 @@ static DateTime CheckDateInput(string text)
         value = Console.ReadLine();
 
         if (!DateTime.TryParse(value, out _))
+            Console.Clear();
             WrongEntry();
 
     }
 
     return result;
 }
-static void AllProjects(Dictionary<Project, List<Assignment>> projects)
+
+static void ProjectsList(Dictionary<Project, List<Assignment>> projects)
 {
     foreach (var project in projects)
     {
         Console.WriteLine($"Projekt: {project.Key.Name}");
-        
-        if(project.Value.Count > 0)
+
+        if (project.Value.Count > 0)
         {
             Console.WriteLine("Zadatci: ");
         }
         else
         {
-            Console.WriteLine("Nema zadataka");
+            Console.WriteLine("Zadatci: Nema zadataka");
         }
 
         foreach (var task in project.Value)
@@ -203,25 +206,47 @@ static void AllProjects(Dictionary<Project, List<Assignment>> projects)
         }
         Console.WriteLine();
     }
+}
+static void AllProjects(Dictionary<Project, List<Assignment>> projects)
+{
+    ProjectsList(projects);
 
     var decision = GoBack();
 
-    switch (decision)
+    if (decision == "0")
     {
-        case "0":
-            Console.Clear();
-            MainMenu(projects);
-            return;
-        default:
-            WrongEntry();
-            AllProjects(projects);
-            return;
+        Console.Clear();
+        MainMenu(projects);
+        return;
+    }
+    else
+    {
+        Console.Clear();
+        WrongEntry();
+        AllProjects(projects);
+        return;
     }
 }
-
 static void NewProject(Dictionary<Project, List<Assignment>> projects)
 {
-    var name = CheckStringInput("Unesite ime novog projekta: ");
+    var name = "";
+    
+    while(name == "" || projects.Keys.Any(project => project.Name.ToLower() == name.ToLower().Trim()))
+    {
+        name = CheckStringInput("Unesite ime novog projekta: ");
+        name = name.Trim();
+
+        if(projects.Keys.Any(project => project.Name.ToLower() == name.ToLower()))
+        {
+            Console.Clear();
+            Console.WriteLine("Pogresan unos. To ime projekta je vec zauzeto, molimo vas unesite drugo ime.");
+        }
+        else if(name == "")
+        {
+            Console.Clear();
+            WrongEntry();
+        }
+    }
 
     Console.Clear();
 
@@ -267,6 +292,7 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
                 status = ProjectStatus.Completed;
                 break;
             default:
+                Console.Clear();
                 WrongEntry();
                 break;
         }
@@ -300,6 +326,37 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
     MainMenu(projects);
     return;
 }
+
+static void DeleteProject(Dictionary<Project, List<Assignment>> projects)
+{
+    var projectName = "";
+    var success = false;
+
+    while(success == false)
+    {
+        ProjectsList(projects);
+        Console.Write("Upisite ime projekta koji zelite obrisati: ");
+        projectName = Console.ReadLine();
+        projectName.Trim();
+        success = projects.Keys.Any(project => project.Name.ToLower() == projectName.ToLower()? projects.Remove(project): false);
+
+        if (!success)
+        {
+            Console.Clear();
+            Console.WriteLine("Pogresan unos, ne postoji projekt sa tim imenom. Pokusajte ponovno.\n");
+        }
+        else
+        {
+            success = true;
+            Console.Clear();
+            Console.WriteLine($"Projekt => {projectName} <= uspjesno obrisan.\n");
+        }
+        
+    }
+
+    MainMenu(projects);
+    return;
+}
 static void MainMenu(Dictionary<Project, List<Assignment>> projects)
 {
     Console.WriteLine("1 - Ispisi sve projekte");
@@ -324,7 +381,8 @@ static void MainMenu(Dictionary<Project, List<Assignment>> projects)
             NewProject(projects);
             return;
         case "3":
-            // DeleteProject();
+            Console.Clear();
+            DeleteProject(projects);
             return;
         case "4":
             // SevenDayDeadlineTask();
@@ -341,6 +399,7 @@ static void MainMenu(Dictionary<Project, List<Assignment>> projects)
         case "0":
             return;
         default:
+            Console.Clear();
             WrongEntry();
             MainMenu(projects);
             return;
