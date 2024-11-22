@@ -3,6 +3,7 @@ using Project_manager_app.Enums;
 using System;
 using System.Data.Common;
 using System.Threading.Channels;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
@@ -368,7 +369,7 @@ static void DeleteProject(Dictionary<Project, List<Assignment>> projects)
         Console.Write("Upisite ime projekta koji zelite obrisati: ");
         projectName = Console.ReadLine();
         projectName.Trim();
-        success = projects.Keys.Any(project => project.Name.ToLower() == projectName.ToLower()? projects.Remove(project): false);
+        success = projects.Keys.Any(project => project.Name.ToLower() == projectName.ToLower());
 
         if (!success)
         {
@@ -377,9 +378,34 @@ static void DeleteProject(Dictionary<Project, List<Assignment>> projects)
         }
         else
         {
-            success = true;
+
+            var project = projects.Keys.First(project => project.Name.ToLower() == projectName.ToLower());
+            var decision = "";
             Console.Clear();
-            Console.WriteLine($"Projekt => {projectName} <= uspjesno obrisan!\n");
+
+            while (decision != "1" && decision != "2")
+            {
+                Console.WriteLine($"Jeste li sigurni da zelite obrisati projekt '{project.Name}'\n");
+                Console.WriteLine("1 - DA\n2 - NE\n");
+                Console.Write("Odaberite radnju: ");
+                decision = Console.ReadLine();
+
+                if (decision != "1" && decision != "2")
+                {
+                    Console.Clear();
+                    WrongEntry();
+                }
+            }
+
+            Console.Clear();
+
+            if (decision == "1")
+            {
+                projects.Remove(project);
+                Console.WriteLine($"Projekt => {project.Name} <= uspjesno obrisan!\n");
+            }
+            
+            success = true;
         }
         
     }
@@ -850,7 +876,7 @@ static void DeleteProjectTask(Dictionary<Project, List<Assignment>> projects, Di
     {
         tasks.Remove(deleteTask);
         
-        Console.WriteLine("Zadatak uspjesno obrisan!\n");
+        Console.WriteLine($"Zadatak => {deleteTask.Name} <= uspjesno obrisan!\n");
     }
     
     ProjectMenu(projects, choosenProject);
@@ -1042,6 +1068,73 @@ static void UpdateTaskStatus(Dictionary<Project, List<Assignment>> projects, Ass
     TaskMenu(projects, choosenTask);
     return;
 }
+
+static void TasksSortedByDuration(Dictionary<Project, List<Assignment>> projects)
+{
+    Console.WriteLine("Zadatci sortirani od najkraceg do najduzeg:\n");
+
+    var sortedTasks = projects.Values.SelectMany(tasks => tasks).OrderBy(task => task.ExpectedDuration).ToList();
+
+    foreach (var task in sortedTasks)
+    {
+        Console.WriteLine($"- {task.Name} => Ocekivano trajanje (u minutama): {task.ExpectedDuration}");
+    }
+
+    var decision = GoBack();
+
+    if (decision != "0")
+    {
+        Console.Clear();
+        WrongEntry();
+        TasksSortedByDuration(projects);
+        return;
+    }
+
+    Console.Clear();
+    MainMenu(projects);
+    return;
+}
+
+static void TasksSortedByPriority(Dictionary<Project, List<Assignment>> projects)
+{
+    Console.WriteLine("Zadatci sortirani po prioritetu izvrsavanja:\n");
+
+    var sortedTasks = projects.Values.SelectMany(tasks => tasks).OrderByDescending(task => task.Priority).ToList();
+
+    foreach (var task in sortedTasks)
+    {
+        var priority = "";
+
+        if(task.Priority == AssignmentPriority.High)
+        {
+            priority = "Visok";
+        }
+        else if(task.Priority == AssignmentPriority.Medium)
+        {
+            priority = "Srednji";
+        }
+        else
+        {
+            priority = "Niski";
+        }
+
+        Console.WriteLine($"- {task.Name} => Prioritet: {priority}");
+    }
+
+    var decision = GoBack();
+
+    if (decision != "0")
+    {
+        Console.Clear();
+        WrongEntry();
+        TasksSortedByPriority(projects);
+        return;
+    }
+
+    Console.Clear();
+    MainMenu(projects);
+    return;
+}
 static void MainMenu(Dictionary<Project, List<Assignment>> projects)
 {
     Console.WriteLine("1 - Prikazi sve projekte");
@@ -1051,6 +1144,8 @@ static void MainMenu(Dictionary<Project, List<Assignment>> projects)
     Console.WriteLine("5 - Prikazi projekte prema statusu");
     Console.WriteLine("6 - Upravljanje odredenim projektom");
     Console.WriteLine("7 - Upravljanje odredenim zadatkom");
+    Console.WriteLine("8 - Prikazi zadatke sortirane od najkraceg do najduljeg");
+    Console.WriteLine("9 - Prikazi zadatke sortirane prema prioritetu");
     Console.WriteLine("0 - Izlaz iz aplikacije");
 
     var decision = ChooseAction();
@@ -1084,6 +1179,14 @@ static void MainMenu(Dictionary<Project, List<Assignment>> projects)
         case "7":
             Console.Clear();
             ChooseTask(projects);
+            return;
+        case "8":
+            Console.Clear();
+            TasksSortedByDuration(projects);
+            return;
+        case "9":
+            Console.Clear();
+            TasksSortedByPriority(projects);
             return;
         case "0":
             return;
