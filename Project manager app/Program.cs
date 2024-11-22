@@ -2,6 +2,7 @@
 using Project_manager_app.Enums;
 using System;
 using System.Data.Common;
+using System.Threading.Channels;
 
 var projects = new Dictionary<Project, List<Assignment>>();
 
@@ -11,7 +12,7 @@ var project1 = new Project
     Description = "Ovo je Git projekt sa DUMP internshipa.",
     StartDate = DateTime.Now.AddDays(-15),
     EndDate = DateTime.Now.AddDays(-5),
-    Status = ProjectStatus.Completed
+    Status = ProjectStatus.Active
 };
 
 var project2 = new Project
@@ -239,7 +240,7 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
         if(projects.Keys.Any(project => project.Name.ToLower() == name.ToLower()))
         {
             Console.Clear();
-            Console.WriteLine("Pogresan unos. To ime projekta je vec zauzeto, molimo vas unesite drugo ime.");
+            Console.WriteLine("Pogresan unos. To ime projekta je vec zauzeto, molimo vas unesite drugo ime.\n");
         }
         else if(name == "")
         {
@@ -254,18 +255,18 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
 
     Console.Clear();
 
-    var startDate = CheckDateInput("Unesite datum pocetka projekta: ");
+    var startDate = CheckDateInput("Unesite datum pocetka projekta (yyyy.MM.dd HH:mm:ss): ");
 
     Console.Clear();
 
-    var endDate = CheckDateInput("Unesite datum zavrsetka projekta: ");
+    var endDate = CheckDateInput("Unesite datum zavrsetka projekta (yyyy.MM.dd HH:mm:ss): ");
 
     while(startDate > endDate)
     {
         Console.Clear();
         Console.WriteLine("Pogresan unos. Datum zavrsetka ne moze biti prije nego datum pocetka. Pokusaj ponovno.");
         Console.WriteLine();
-        endDate = CheckDateInput("Unesite datum zavrsetka projekta: ");
+        endDate = CheckDateInput("Unesite datum zavrsetka projekta (yyyy.MM.dd HH:mm:ss): ");
     }
 
     Console.Clear();
@@ -276,7 +277,7 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
     while(choice != "1" && choice != "2" && choice != "3")
     {
         Console.WriteLine("Odaberite status projekta:\n\n1 - Aktivan\n2 - Na cekanju\n3 - Zavrsen\n");
-        Console.Write("Odaberite radnju: ");
+        Console.Write("Odaberite status projekta: ");
         choice = Console.ReadLine();
         
 
@@ -310,8 +311,8 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
     projects.Add(newProject, new List<Assignment>());
 
     Console.Clear();
-    Console.WriteLine("Projekt uspjesno kreiran.");
-    var decision = "";
+    Console.WriteLine($"Projekt => {name} <= uspjesno kreiran!\n");
+    /*var decision = "";
    
     while(decision != "0")
     {
@@ -322,7 +323,7 @@ static void NewProject(Dictionary<Project, List<Assignment>> projects)
             Console.WriteLine("Pogresan unos. Pokusajte ponovno."); 
     }
 
-    Console.Clear();
+    Console.Clear();*/
     MainMenu(projects);
     return;
 }
@@ -349,13 +350,160 @@ static void DeleteProject(Dictionary<Project, List<Assignment>> projects)
         {
             success = true;
             Console.Clear();
-            Console.WriteLine($"Projekt => {projectName} <= uspjesno obrisan.\n");
+            Console.WriteLine($"Projekt => {projectName} <= uspjesno obrisan!\n");
         }
         
     }
 
     MainMenu(projects);
     return;
+}
+
+static void SevenDayDeadlineTasks(Dictionary<Project, List<Assignment>> projects)
+{   
+    Console.WriteLine("Zadatci sa rokom u sljedecih 7 dana:\n");
+    var assignmentsList = projects.SelectMany(project => project.Value).Where(task => task.Deadline > DateTime.Now && task.Deadline < DateTime.Now.AddDays(7)).ToList();
+
+    if (assignmentsList.Count > 0)
+    {
+        foreach (var assignment in assignmentsList)
+        {
+            Console.WriteLine($"- {assignment.Name} ({assignment.Deadline})");
+        }
+    }
+    else
+    {
+        Console.WriteLine("- Nema zadataka");
+    }
+
+    var decision = GoBack();
+
+    if (decision != "0")
+    {
+        Console.Clear();
+        WrongEntry();
+        SevenDayDeadlineTasks(projects);
+        return;
+    }
+
+    Console.Clear();
+    MainMenu(projects);
+    return;
+}
+
+static void ProjectsByStatus(Dictionary<Project, List<Assignment>> projects)
+{
+    
+    var choice = "";
+    var status = ProjectStatus.Active;
+    var statusPrint = "";
+
+    while(choice != "1" && choice != "2" && choice != "3")
+    {
+        Console.WriteLine("Odaberite status projekata koje zelite vidjeti:\n\n1 - Aktivan\n2 - Na cekanju\n3 - Zavrsen\n");
+        Console.Write("Odaberite status projekta: ");
+        choice = Console.ReadLine();
+
+        switch (choice)
+        {
+            case "1":
+                statusPrint = "aktivni";
+                status = ProjectStatus.Active;
+                break;
+            case "2":
+                statusPrint = "na cekanju";
+                status = ProjectStatus.Pending;
+                break;
+            case "3":
+                statusPrint = "zavrseni";
+                status = ProjectStatus.Completed;
+                break;
+            default:
+                Console.Clear();
+                WrongEntry();
+                break;
+        }
+    }
+
+    var decision = "";
+    Console.Clear();
+
+    while(decision != "0")
+    {
+        
+        Console.WriteLine($"Svi projekti koji su {statusPrint}:\n");
+
+        var filteredProjects = projects.Keys.Where(project => project.Status == status).ToList();
+
+        if (filteredProjects.Count > 0)
+        {
+            foreach (var project in filteredProjects)
+            {
+                Console.WriteLine($"- {project.Name}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("- Nema projekata");
+        }
+        
+        decision = GoBack();
+
+        if (decision != "0")
+        {
+            Console.Clear();
+            WrongEntry();
+        }   
+    }
+
+    Console.Clear();
+    MainMenu(projects);
+    return;
+}
+
+static void ChooseProject(Dictionary<Project, List<Assignment>> projects)
+{
+    if (projects.Count > 0)
+    {
+        Console.WriteLine("Projekti:\n");
+
+        foreach (var project in projects)
+        {
+            Console.WriteLine($"- {project.Key.Name}");
+        }
+
+        Console.Write("\n\nUnesite ime projekta kojeg zelite odabrati: ");
+        var projectName = Console.ReadLine().Trim();
+
+        var filteredProject = projects.Where(project => project.Key.Name.ToLower() == projectName.ToLower()).ToDictionary(project => project.Key, project => project.Value);
+
+        if(filteredProject.Count > 0)
+        {
+            Console.Clear();
+            Console.WriteLine($"Odabrani projekt => {filteredProject.Keys.First().Name}\n");
+            ProjectMenu(filteredProject);
+            return;
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("Pogresan unos, ne postoji projekt sa tim imenom. Pokusajte ponovno.\n");
+            ChooseProject(projects);
+            return;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Nema projekata za odabrati\n");
+        MainMenu(projects);
+        return;
+    }
+    
+}
+
+static void ProjectMenu(Dictionary<Project, List<Assignment>> projects)
+{
+    Console.WriteLine(projects.Keys.First().Name);
 }
 static void MainMenu(Dictionary<Project, List<Assignment>> projects)
 {
@@ -385,13 +533,16 @@ static void MainMenu(Dictionary<Project, List<Assignment>> projects)
             DeleteProject(projects);
             return;
         case "4":
-            // SevenDayDeadlineTask();
+            Console.Clear();
+            SevenDayDeadlineTasks(projects);
             return;
         case "5":
-            // ProjectsByStatus();
+            Console.Clear();
+            ProjectsByStatus(projects);
             return;
         case "6":
-            // ProjectMenu();
+            Console.Clear();
+            ChooseProject(projects);
             return;
         case "7":
             // TaskMenu();
